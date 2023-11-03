@@ -45,42 +45,30 @@ def database_connection():
     connection.close()
 
 
-# Функция для вставки данных
 async def insert_data():
-    # Создаем подключение к базе данных
     async with aiosqlite.connect("dogs.db") as db:
-        # Выполняем SQL-запрос для вставки данных
         await db.execute(
             """
             INSERT INTO Dogs (Name, Breed) VALUES (?, ?)
             """,
             ("Teo", "Valdayan dalmatan"),
         )
-        # Подтверждаем изменения в базе данных
         await db.commit()
 
 async def select_data():
-    # Создаем подключение к базе данных
     async with aiosqlite.connect("dogs.db") as db:
-        # Выполняем SQL-запрос для выборки данных
         async with db.execute("SELECT * FROM Dogs") as cursor:
-            # Итерируемся по результатам запроса
             async for row in cursor:
-                # Выводим данные из строки результата
                 print(row[0], row[1], row[2])
 
-# Функция для обновления данных
 async def update_data():
-    # Создаем подключение к базе данных
     async with aiosqlite.connect("dogs.db") as db:
-        # Выполняем SQL-запрос для обновления данных
         await db.execute(
             """
             UPDATE Dogs SET Name = ? WHERE Breed = ?
             """,
             ("Charik", "Valdayan dalmatan"),
         )
-        # Подтверждаем изменения в базе данных
         await db.commit()
 
 async def add_record_to_database():
